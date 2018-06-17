@@ -10,13 +10,11 @@ class Layout extends Component {
 		menu: [
 			{
 				name: 'Burger Builder',
-				link: '/',
-				active: true,
+				link: '/'
 			},
 			{
-				name: 'Checkout',
-				link: '/',
-				active: false,
+				name: 'Orders',
+				link: '/orders'
 			} 
 		],
 		toggleSideDrawer: false
