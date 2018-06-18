@@ -3,7 +3,7 @@
 
 This project is base on React + Redux.
 
-This is a online order burger project. User can order custom burger ingredients and check their order.
+This is online order burger project. User can order custom burger ingredients and check their order.
 
 Support mobile device.
 
