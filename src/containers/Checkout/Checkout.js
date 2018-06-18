@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import CheckoutSummery from '../../components/Order/CheckoutSummery/CheckoutSummery';
 
 class Checkout extends Component {
-	state = {
-		ingredients: {
-			salad: 1,
-			meat: 1,
-			bacon: 1,
-			cheese: 1
-		}
-	}
-
 	checkoutCancelledHandler = () => {
 		this.props.history.goBack();
 	}
@@ -24,7 +16,7 @@ class Checkout extends Component {
 		return (
 			<div>
 				<CheckoutSummery 
-					ingredients={this.state.ingredients}
+					ingredients={this.props.ings}
 					checkoutCancelled={this.checkoutCancelledHandler}
 					checkoutNext={this.checkoutNextHandler} />
 			</div>
@@ -32,4 +24,11 @@ class Checkout extends Component {
 	}
 }
 
-export default Checkout;
+const mapStateToProps = state => {
+	return {
+		ings: state.ingredients,
+		totalPrice: state.totalPrice
+	};
+}
+
+export default connect(mapStateToProps)(Checkout);

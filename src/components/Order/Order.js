@@ -5,7 +5,7 @@ const order = (props) => {
 	let transformedIngredients = Object.keys(props.ingredients)
 		.map( igKey => {
 			return [...Array(props.ingredients[igKey])].map((_, i) => {
-				return <span className="Order-ingredient">{igKey} ({props.ingredients[igKey]})</span>;
+				return <span key={igKey} className="Order-ingredient">{igKey} ({props.ingredients[igKey]})</span>;
 			});
 		})
 		.reduce((arr, el) => {
