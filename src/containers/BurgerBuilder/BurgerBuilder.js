@@ -7,7 +7,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummery from '../../components/Burger/OrderSummery/OrderSummery';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ServerErrorHandler from '../../hoc/ServerErrorHandler/ServerErrorHandler';
-import * as actions from '../../store/actions/burgerBuilder';
+import * as actions from '../../store/actions/index';
 import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
@@ -27,7 +27,13 @@ class BurgerBuilder extends Component {
 	}
 
 	purchaseHandler = () => {
-		this.setState({purchasing: true});
+		if (this.props.isAuthenticated) {
+			this.setState({purchasing: true});
+		}else {
+			this.props.setAuthRedirectPath('/checkout');
+			this.props.history.push('/auth');
+		}
+		
 	}
 
 	pruchaseCancelHandler = () => {
@@ -35,35 +41,14 @@ class BurgerBuilder extends Component {
 	}
 
 	pruchaseContinueHandler = () => {
+		this.props.initPurchase();
 		this.props.history.push('/checkout');
-		// this.setState({loading: true});
-		// const order = {
-		// 	ingredients: this.props.ings,
-		// 	price: this.props.totalPrice,
-		// 	customer: {
-		// 		name: 'Tony Wang',
-		// 		address: {
-		// 			street: '111 queen st',
-		// 			city: 'Auckland',
-		// 			country: 'New Zealand'
-		// 		},
-		// 		email: 'test@test.com'
-		// 	}
-		// }
-		// axios.post('/orders.json', order)
-		// .then(response => {
-		// 	this.setState({loading: false, purchasing: false});
-		// 	this.props.history.push('/checkout');
-		// })
-		// .catch(error=> {
-		// 	this.setState({loading: false, purchasing: false})
-		// });
 	}
 
 	render () {
 		let burger = this.props.error ? <p> Can't loaded Ingredients! </p> : <Spinner />,
 			orderSummery = null;
-
+			console.log(this.props.totalPrice);
 		if (this.props.ings) {
 			burger = (
 				<React.Fragment>
@@ -75,6 +60,7 @@ class BurgerBuilder extends Component {
 						purchasing={this.purchaseHandler}
 						addIngredient={this.props.addIngredient}
 						removeIngredient={this.props.removeIngredient}
+						isAuth={this.props.isAuthenticated}
 					/>
 				</React.Fragment>
 			);
@@ -98,9 +84,10 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
 	return {
-		ings: state.ingredients,
-		totalPrice: state.totalPrice,
-		error: state.error
+		ings: state.burgerBuilder.ingredients,
+		totalPrice: state.burgerBuilder.totalPrice,
+		error: state.burgerBuilder.error,
+		isAuthenticated: state.auth.token !== null
 	};
 }
 
@@ -108,7 +95,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		addIngredient: (ingName) => dispatch(actions.addIngredient(ingName)),
 		removeIngredient: (ingName) => dispatch(actions.removeIngredient(ingName)),
-		initIngredients: () => dispatch(actions.initIngredients())
+		initIngredients: () => dispatch(actions.initIngredients()),
+		initPurchase: () => dispatch(actions.purchaseInit()),
+		setAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
 	};
 }
 

@@ -4,7 +4,7 @@ import './NavItems.css';
 
 const navItems = (props) => {
 	let navItems = props.menu.map((navItem, index) => {
-		return <NavItem item={navItem.name} link={navItem.link} key={index} />;
+		return (navItem.show ? <NavItem item={navItem.name} link={navItem.link} key={index} /> : null);
 	});
 	return (
 		<ul className="NavItems">

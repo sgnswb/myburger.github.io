@@ -2,6 +2,7 @@ import React from 'react';
 import './Order.css';
 
 const order = (props) => {
+	console.log(props.ingredients);
 	let transformedIngredients = Object.keys(props.ingredients)
 		.map( igKey => {
 			return [...Array(props.ingredients[igKey])].map((_, i) => {

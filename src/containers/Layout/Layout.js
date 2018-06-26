@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './Layout.css';
 
 import Toolbar from '../../components/Nav/Toolbar/Toolbar';
@@ -10,14 +11,55 @@ class Layout extends Component {
 		menu: [
 			{
 				name: 'Burger Builder',
-				link: '/'
+				link: '/',
+				show: true
 			},
 			{
 				name: 'Orders',
-				link: '/orders'
+				link: '/orders',
+				show: false
+			},
+			{
+				name: 'Sign in',
+				link: '/auth',
+				show: true
 			} 
 		],
 		toggleSideDrawer: false
+	}
+
+	componentDidUpdate () {
+		let updateMenu = [...this.state.menu];
+		updateMenu.splice(2, 1, {
+			name: 'Logout',
+			link: '/logout',
+			show: true
+		});
+		updateMenu.splice(1, 1, {
+			name: 'Orders',
+			link: '/orders',
+			show: true
+		});
+		let resetMenu = [...this.state.menu];
+		resetMenu.splice(2, 1, {
+			name: 'Sign in',
+			link: '/auth',
+			show: true
+		});
+		resetMenu.splice(1, 1, {
+			name: 'Orders',
+			link: '/orders',
+			show: false
+		});
+		if (this.props.isAuthenticated) {
+			if (this.state.menu[2].name !== updateMenu[2].name) {
+				this.setState({menu: updateMenu});
+			}
+		}else {
+			if (this.state.menu[2].name !== resetMenu[2].name) {
+				this.setState({menu: resetMenu});
+			}
+		}
 	}
 
 	toggleSideDrawerHandler = () => {
@@ -42,4 +84,10 @@ class Layout extends Component {
 	}
 };
 
-export default Layout;
+const mapStateToProps = state => {
+	return {
+		isAuthenticated: state.auth.token !== null
+	}
+}
+
+export default connect(mapStateToProps)(Layout);

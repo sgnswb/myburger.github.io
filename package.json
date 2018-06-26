@@ -2,7 +2,7 @@
   "name": "myburger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://sgnswb.github.io/myburger",
+  "homepage": "http://tonywang.co.nz/myburger",
   "dependencies": {
     "axios": "^0.18.0",
     "npm": "^6.1.0",
