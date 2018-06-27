@@ -1,4 +1,8 @@
 
+## Demo:
+
+[Demo](https://myburger-d3410.firebaseapp.com/)
+
 ## Description:
 
 This project is base on React + Redux.
@@ -7,12 +11,15 @@ This is online order burger project. User can order custom burger ingredients an
 
 Support mobile device.
 
+available for user upload their detail to finish order.
+
+add authentication for user to login to make order.
 
 
 ## Upcoming Feature:
 
-available for user upload their detail to finish order.
+UI improvement
 
-authentication will add to project soon...
+react lazy loading
 
-Later will deploy to web, current please try to run it in local.
+
